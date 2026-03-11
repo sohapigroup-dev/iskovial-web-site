@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, Building2, MapPin, Hammer, Package, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo-iskovial.png";
 
 const navLinks = [
   { to: "/", label: "Accueil", icon: Home },
@@ -21,11 +22,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-            <Building2 className="w-5 h-5 text-primary-foreground" />
-          </div>
+          <img src={logo} alt="ISKOVIAL GROUP" className="h-10 w-auto rounded-lg" />
           <span className="font-heading font-bold text-xl text-foreground">
-            Immo<span className="text-gradient-gold">Elite</span>
+            ISKOVIAL <span className="text-gradient-gold">GROUP</span>
           </span>
         </Link>
 

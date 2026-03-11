@@ -3,7 +3,7 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   { name: "Ahmed B.", role: "Acheteur", text: "Service exceptionnel ! J'ai trouvé ma villa de rêve en moins de 2 semaines. L'équipe a été très professionnelle du début à la fin." },
-  { name: "Fatima Z.", role: "Vendeuse", text: "Ils ont vendu mon appartement au meilleur prix du marché. Je recommande ImmoElite à tous ceux qui cherchent un service immobilier de qualité." },
+  { name: "Fatima Z.", role: "Vendeuse", text: "Ils ont vendu mon appartement au meilleur prix du marché. Je recommande ISKOVIAL GROUP à tous ceux qui cherchent un service immobilier de qualité." },
   { name: "Karim M.", role: "Constructeur", text: "Le service construction clé en main est remarquable. Mon projet a été livré dans les délais avec une qualité irréprochable." },
 ];
 

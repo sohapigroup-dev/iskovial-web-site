@@ -32,10 +32,10 @@ const ContactPage = () => {
             {/* Contact info */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
               {[
-                { icon: Phone, title: "Téléphone", value: "+212 5 22 00 00 00", sub: "Lun-Ven, 9h-18h" },
-                { icon: Mail, title: "Email", value: "contact@immoelite.ma", sub: "Réponse sous 24h" },
-                { icon: MapPin, title: "Adresse", value: "123 Bd Mohammed V", sub: "Casablanca, Maroc" },
-                { icon: Clock, title: "Horaires", value: "Lun-Ven: 9h-18h", sub: "Sam: 9h-13h" },
+                { icon: Phone, title: "Téléphone", value: "+225 01 02 39 00 49", sub: "+225 07 99 99 25 17" },
+                { icon: Mail, title: "Email", value: "iskovialgroup@iskovial.com", sub: "Réponse sous 24h" },
+                { icon: MapPin, title: "Adresse", value: "Yopougon Ananeraie", sub: "Abidjan, Côte d'Ivoire" },
+                { icon: Clock, title: "Horaires", value: "Lun-Ven: 8h-18h", sub: "Sam: 8h-13h" },
               ].map((c) => (
                 <div key={c.title} className="flex gap-4 bg-card p-5 rounded-xl shadow-card">
                   <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -90,7 +90,7 @@ const ContactPage = () => {
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition"
-                      placeholder="+212 6 00 00 00 00"
+                      placeholder="+225 00 00 00 00 00"
                     />
                   </div>
                   <div>

@@ -13,6 +13,7 @@ export interface Property {
   images: string[];
   featured: boolean;
   status: "disponible" | "vendu" | "réservé";
+  transactionType: "vente" | "location";
 }
 
 export interface Terrain {
@@ -24,6 +25,7 @@ export interface Terrain {
   zoning: string;
   description: string;
   image: string;
+  images?: string[]; // Galerie d'images optionnelle
 }
 
 export interface Material {
@@ -43,23 +45,24 @@ export const properties: Property[] = [
     title: "Villa Moderne avec Piscine",
     type: "villa",
     price: 450000,
-    location: "Casablanca, Ain Diab",
+    location: "Cocody, Abidjan",
     surface: 350,
     rooms: 6,
     bedrooms: 4,
     bathrooms: 3,
-    description: "Magnifique villa moderne avec piscine privée, jardin paysager et vue panoramique sur l'océan. Finitions haut de gamme, cuisine équipée, garage double.",
-    features: ["Piscine", "Jardin", "Garage", "Vue mer", "Climatisation", "Sécurité 24h"],
+    description: "Magnifique villa moderne avec piscine privée, jardin paysager et vue panoramique. Finitions haut de gamme, cuisine équipée, garage double.",
+    features: ["Piscine", "Jardin", "Garage", "Vue panoramique", "Climatisation", "Sécurité 24h"],
     images: [],
     featured: true,
     status: "disponible",
+    transactionType: "vente",
   },
   {
     id: "2",
-    title: "Appartement Standing Centre-Ville",
+    title: "Appartement Standing Plateau",
     type: "appartement",
     price: 180000,
-    location: "Rabat, Agdal",
+    location: "Plateau, Abidjan",
     surface: 120,
     rooms: 4,
     bedrooms: 3,
@@ -69,13 +72,14 @@ export const properties: Property[] = [
     images: [],
     featured: true,
     status: "disponible",
+    transactionType: "location",
   },
   {
     id: "3",
     title: "Maison Contemporaine avec Jardin",
     type: "maison",
     price: 320000,
-    location: "Marrakech, Targa",
+    location: "Marcory, Abidjan",
     surface: 250,
     rooms: 5,
     bedrooms: 3,
@@ -85,61 +89,76 @@ export const properties: Property[] = [
     images: [],
     featured: true,
     status: "disponible",
+    transactionType: "vente",
   },
   {
     id: "4",
-    title: "Villa de Luxe Palmeraie",
+    title: "Villa de Luxe Riviera",
     type: "villa",
     price: 780000,
-    location: "Marrakech, Palmeraie",
+    location: "Riviera Golf, Abidjan",
     surface: 500,
     rooms: 8,
     bedrooms: 5,
     bathrooms: 4,
-    description: "Exceptionnelle villa de luxe dans la Palmeraie, architecture traditionnelle revisitée, piscine à débordement, hammam privatif.",
-    features: ["Piscine à débordement", "Hammam", "Personnel de maison", "Jardin 2000m²", "Suite parentale"],
+    description: "Exceptionnelle villa de luxe à Riviera Golf, architecture moderne élégante, piscine à débordement, salle de sport privée.",
+    features: ["Piscine à débordement", "Salle de sport", "Personnel de maison", "Jardin 2000m²", "Suite parentale"],
     images: [],
     featured: false,
     status: "disponible",
+    transactionType: "vente",
   },
   {
     id: "5",
-    title: "Appartement Vue Mer",
+    title: "Appartement Vue Lagon",
     type: "appartement",
     price: 250000,
-    location: "Tanger, Malabata",
+    location: "Zone 4, Abidjan",
     surface: 150,
     rooms: 4,
     bedrooms: 3,
     bathrooms: 2,
-    description: "Magnifique appartement avec vue imprenable sur la mer et le détroit de Gibraltar. Résidence de standing avec piscine commune.",
-    features: ["Vue mer", "Piscine commune", "Terrasse", "Parking", "Gardiennage"],
+    description: "Magnifique appartement avec vue imprenable sur le lagon. Résidence de standing avec piscine commune.",
+    features: ["Vue lagon", "Piscine commune", "Terrasse", "Parking", "Gardiennage"],
     images: [],
     featured: false,
     status: "disponible",
+    transactionType: "location",
   },
   {
     id: "6",
-    title: "Maison Traditionnelle Rénovée",
+    title: "Maison Moderne Rénovée",
     type: "maison",
     price: 210000,
-    location: "Fès, Médina",
+    location: "Deux-Plateaux, Abidjan",
     surface: 180,
     rooms: 5,
     bedrooms: 3,
     bathrooms: 2,
-    description: "Riad traditionnel entièrement rénové avec patio central, fontaine, et toit-terrasse avec vue sur la médina.",
-    features: ["Patio", "Toit-terrasse", "Fontaine", "Architecture traditionnelle", "Rénové"],
+    description: "Belle maison entièrement rénovée avec espace jardin, terrasse couverte et finitions modernes.",
+    features: ["Jardin", "Toit-terrasse", "Moderne", "Quartier résidentiel", "Rénové"],
     images: [],
     featured: false,
     status: "disponible",
+    transactionType: "vente",
   },
 ];
 
 export const terrains: Terrain[] = [
-  { id: "t1", title: "Terrain Constructible Zone Résidentielle", location: "Casablanca, Bouskoura", surface: 500, price: 120000, zoning: "Résidentiel", description: "Terrain plat dans lotissement viabilisé, idéal pour villa.", image: "" },
-  { id: "t2", title: "Terrain avec Vue Montagne", location: "Ifrane", surface: 1000, price: 85000, zoning: "Résidentiel", description: "Grand terrain avec vue panoramique sur les montagnes de l'Atlas.", image: "" },
-  { id: "t3", title: "Terrain Commercial Centre-Ville", location: "Rabat, Hassan", surface: 300, price: 200000, zoning: "Commercial", description: "Emplacement stratégique en centre-ville pour projet commercial.", image: "" },
+  {
+    id: "t1",
+    title: "Terrain Constructible Zone Résidentielle",
+    location: "Bingerville, Abidjan",
+    surface: 500,
+    price: 120000,
+    zoning: "Résidentiel",
+    description: "Terrain plat dans lotissement viabilisé, idéal pour villa.",
+    image: "",
+    // Exemple avec plusieurs images (décommentez et ajoutez vos images)
+    // images: ["/path/to/image1.jpg", "/path/to/image2.jpg", "/path/to/image3.jpg"]
+  },
+  { id: "t2", title: "Terrain avec Vue Panoramique", location: "Cocody, Abidjan", surface: 1000, price: 85000, zoning: "Résidentiel", description: "Grand terrain avec vue panoramique dans un quartier prisé.", image: "" },
+  { id: "t3", title: "Terrain Commercial Centre-Ville", location: "Plateau, Abidjan", surface: 300, price: 200000, zoning: "Commercial", description: "Emplacement stratégique en centre-ville pour projet commercial.", image: "" },
 ];
 
 export const materials: Material[] = [
@@ -152,4 +171,4 @@ export const materials: Material[] = [
 ];
 
 export const formatPrice = (price: number) =>
-  new Intl.NumberFormat("fr-FR", { style: "currency", currency: "MAD", minimumFractionDigits: 0 }).format(price);
+  new Intl.NumberFormat("fr-FR", { style: "currency", currency: "XOF", minimumFractionDigits: 0 }).format(price);

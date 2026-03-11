@@ -20,7 +20,7 @@ const HeroSection = () => (
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block bg-accent/20 text-accent backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-accent/30">
-            ✦ Agence Immobilière Premium
+            ✦ ISKOVIAL GROUP
           </span>
           <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
             Trouvez le bien

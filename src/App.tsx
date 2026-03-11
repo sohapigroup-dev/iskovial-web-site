@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import Properties from "./pages/Properties.tsx";
 import PropertyDetail from "./pages/PropertyDetail.tsx";
 import Terrains from "./pages/Terrains.tsx";
+import TerrainDetail from "./pages/TerrainDetail.tsx";
 import Construction from "./pages/Construction.tsx";
 import Materiaux from "./pages/Materiaux.tsx";
 import Contact from "./pages/Contact.tsx";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/proprietes" element={<Properties />} />
           <Route path="/proprietes/:id" element={<PropertyDetail />} />
           <Route path="/terrains" element={<Terrains />} />
+          <Route path="/terrains/:id" element={<TerrainDetail />} />
           <Route path="/construction" element={<Construction />} />
           <Route path="/materiaux" element={<Materiaux />} />
           <Route path="/contact" element={<Contact />} />

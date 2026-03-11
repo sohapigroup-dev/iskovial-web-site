@@ -1,41 +1,41 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, MapPin, Maximize, BedDouble, Bath, Home, Check, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, MapPin, Maximize, Phone, Mail, Landmark, MessageCircle, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { properties, formatPrice } from "@/data/properties";
+import { terrains, formatPrice } from "@/data/properties";
 import property1 from "@/assets/property-1.jpg";
 import property2 from "@/assets/property-2.jpg";
 import property3 from "@/assets/property-3.jpg";
 
 const defaultImages = [property1, property2, property3];
 
-const PropertyDetail = () => {
+const TerrainDetail = () => {
   const { id } = useParams();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const property = properties.find((p) => p.id === id);
+  const terrain = terrains.find((t) => t.id === id);
 
-  if (!property) {
+  if (!terrain) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-24 container mx-auto px-4 text-center py-20">
-          <h1 className="font-heading text-2xl font-bold mb-4">Bien non trouvé</h1>
-          <Button asChild><Link to="/proprietes">Retour aux propriétés</Link></Button>
+          <h1 className="font-heading text-2xl font-bold mb-4">Terrain non trouvé</h1>
+          <Button asChild><Link to="/terrains">Retour aux terrains</Link></Button>
         </div>
         <Footer />
       </div>
     );
   }
 
-  // Utiliser les images de la propriété ou les images par défaut
-  const images = property.images && property.images.length > 0
-    ? property.images
-    : [defaultImages[parseInt(property.id) % defaultImages.length]];
+  // Utiliser les images du terrain ou les images par défaut
+  const images = terrain.images && terrain.images.length > 0
+    ? terrain.images
+    : [defaultImages[terrains.indexOf(terrain) % defaultImages.length]];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -50,8 +50,8 @@ const PropertyDetail = () => {
       <Navbar />
       <div className="pt-24 pb-8">
         <div className="container mx-auto px-4">
-          <Link to="/proprietes" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4">
-            <ArrowLeft className="w-4 h-4" /> Retour aux propriétés
+          <Link to="/terrains" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4">
+            <ArrowLeft className="w-4 h-4" /> Retour aux terrains
           </Link>
 
           {/* Hero image */}
@@ -61,7 +61,7 @@ const PropertyDetail = () => {
           }}>
             <DialogTrigger asChild>
               <div className="relative h-[50vh] md:h-[60vh] rounded-2xl overflow-hidden shadow-lg cursor-pointer group">
-                <img src={images[0]} alt={property.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={images[0]} alt={terrain.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
                 <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                   <Maximize className="w-5 h-5 text-foreground" />
@@ -73,10 +73,10 @@ const PropertyDetail = () => {
                 )}
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                   <h1 className="font-heading text-2xl md:text-4xl font-bold text-primary-foreground mb-2">
-                    {property.title}
+                    {terrain.title}
                   </h1>
                   <p className="flex items-center gap-1 text-primary-foreground/90 text-sm md:text-base">
-                    <MapPin className="w-4 h-4" /> {property.location}
+                    <MapPin className="w-4 h-4" /> {terrain.location}
                   </p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const PropertyDetail = () => {
                 <div className="relative aspect-video">
                   <img
                     src={images[currentImageIndex]}
-                    alt={`${property.title} - Photo ${currentImageIndex + 1}`}
+                    alt={`${terrain.title} - Photo ${currentImageIndex + 1}`}
                     className="w-full h-full object-contain"
                   />
 
@@ -146,13 +146,12 @@ const PropertyDetail = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-4"
               >
                 {[
-                  { icon: Maximize, label: "Surface", value: `${property.surface} m²` },
-                  { icon: Home, label: "Pièces", value: `${property.rooms}` },
-                  { icon: BedDouble, label: "Chambres", value: `${property.bedrooms}` },
-                  { icon: Bath, label: "Salles de bain", value: `${property.bathrooms}` },
+                  { icon: Maximize, label: "Surface", value: `${terrain.surface} m²` },
+                  { icon: Landmark, label: "Zonage", value: terrain.zoning },
+                  { icon: MapPin, label: "Localisation", value: terrain.location.split(',')[0] },
                 ].map((s) => (
                   <div key={s.label} className="bg-card rounded-xl p-4 shadow-card text-center">
                     <s.icon className="w-5 h-5 text-primary mx-auto mb-2" />
@@ -165,16 +164,33 @@ const PropertyDetail = () => {
               {/* Description */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
                 <h2 className="font-heading text-xl font-bold text-foreground mb-3">Description</h2>
-                <p className="text-muted-foreground leading-relaxed">{property.description}</p>
+                <p className="text-muted-foreground leading-relaxed mb-4">{terrain.description}</p>
+                <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+                  <h3 className="font-semibold text-foreground text-sm">Informations importantes</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Terrain viabilisé (eau, électricité, assainissement)</li>
+                    <li>• Titre foncier disponible</li>
+                    <li>• Zone {terrain.zoning.toLowerCase()}</li>
+                    <li>• Accès routier facile</li>
+                  </ul>
+                </div>
               </motion.div>
 
-              {/* Features */}
+              {/* Avantages */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                <h2 className="font-heading text-xl font-bold text-foreground mb-3">Caractéristiques</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {property.features.map((f) => (
-                    <div key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-accent" /> {f}
+                <h2 className="font-heading text-xl font-bold text-foreground mb-3">Avantages</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    "Terrain plat et constructible",
+                    "Environnement calme et sécurisé",
+                    "Proximité des commodités",
+                    "Zone en développement",
+                    "Idéal pour projet immobilier",
+                    "Prix négociable",
+                  ].map((f) => (
+                    <div key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5" />
+                      {f}
                     </div>
                   ))}
                 </div>
@@ -187,13 +203,16 @@ const PropertyDetail = () => {
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Prix</div>
                   <div className="font-heading text-3xl font-bold text-primary">
-                    {formatPrice(property.price)}
+                    {formatPrice(terrain.price)}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    Soit {Math.round(terrain.price / terrain.surface).toLocaleString('fr-FR')} FCFA/m²
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <Button size="lg" className="w-full gap-2 bg-[#25D366] hover:bg-[#20BA5A]" asChild>
-                    <a href="https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20la%20propriété%20:%20" target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20terrain%20:%20" target="_blank" rel="noopener noreferrer">
                       <MessageCircle className="w-4 h-4" /> Contacter via WhatsApp
                     </a>
                   </Button>
@@ -206,6 +225,16 @@ const PropertyDetail = () => {
                     <Link to="/contact">
                       <Mail className="w-4 h-4" /> Demander plus d'infos
                     </Link>
+                  </Button>
+                </div>
+
+                <div className="pt-4 border-t border-border">
+                  <div className="text-sm font-medium text-foreground mb-2">Besoin de construire ?</div>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Découvrez nos services de construction clé en main
+                  </p>
+                  <Button size="sm" variant="secondary" className="w-full" asChild>
+                    <Link to="/construction">Voir nos services</Link>
                   </Button>
                 </div>
 
@@ -222,4 +251,4 @@ const PropertyDetail = () => {
   );
 };
 
-export default PropertyDetail;
+export default TerrainDetail;

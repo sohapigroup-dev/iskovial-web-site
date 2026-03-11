@@ -24,7 +24,7 @@ const CTASection = () => (
               <Phone className="w-4 h-4" /> Nous appeler
             </Link>
           </Button>
-          <Button size="lg" variant="outline" asChild className="gap-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+          <Button size="lg" variant="outline" asChild className="gap-2 border-primary-foreground/30 text-bg-primary-foreground hover:primary-foreground">
             <Link to="/proprietes">
               Explorer les biens <ArrowRight className="w-4 h-4" />
             </Link>
