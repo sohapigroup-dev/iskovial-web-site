@@ -1,14 +1,56 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { properties, terrains } from "@/data/properties";
+import { supabase } from "@/lib/supabase";
 import PropertyCard from "./PropertyCard";
 import TerrainCard from "./TerrainCard";
 
 const FeaturedProperties = () => {
-  const featured = properties.filter((p) => p.featured);
-  const featuredTerrains = terrains.slice(0, 3); // Prendre les 3 premiers terrains
+  const [featured, setFeatured] = useState<any[]>([]);
+  const [featuredTerrains, setFeaturedTerrains] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeatured();
+  }, []);
+
+  const fetchFeatured = async () => {
+    try {
+      const [propertiesRes, terrainsRes] = await Promise.all([
+        supabase
+          .from('properties')
+          .select('*')
+          .eq('featured', true)
+          .eq('status', 'available')
+          .limit(3),
+        supabase
+          .from('terrains')
+          .select('*')
+          .eq('featured', true)
+          .eq('status', 'available')
+          .limit(3),
+      ]);
+
+      if (propertiesRes.data) setFeatured(propertiesRes.data);
+      if (terrainsRes.data) setFeaturedTerrains(terrainsRes.data);
+    } catch (error) {
+      console.error('Error fetching featured:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 text-center">
+          Chargement...
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-background">

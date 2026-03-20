@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, Building2, MapPin, Hammer, Package, Phone } from "lucide-react";
+import { Menu, X, Home, Building2, MapPin, Car, Hammer, Package, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo-iskovial.png";
@@ -9,6 +9,7 @@ const navLinks = [
   { to: "/", label: "Accueil", icon: Home },
   { to: "/proprietes", label: "Propriétés", icon: Building2 },
   { to: "/terrains", label: "Terrains", icon: MapPin },
+  { to: "/vehicules", label: "Véhicules", icon: Car },
   { to: "/construction", label: "Construction", icon: Hammer },
   { to: "/materiaux", label: "Matériaux", icon: Package },
   { to: "/contact", label: "Contact", icon: Phone },

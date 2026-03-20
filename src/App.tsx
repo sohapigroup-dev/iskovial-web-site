@@ -3,37 +3,59 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index.tsx";
 import Properties from "./pages/Properties.tsx";
 import PropertyDetail from "./pages/PropertyDetail.tsx";
 import Terrains from "./pages/Terrains.tsx";
 import TerrainDetail from "./pages/TerrainDetail.tsx";
+import Vehicles from "./pages/Vehicles.tsx";
+import VehicleDetail from "./pages/VehicleDetail.tsx";
 import Construction from "./pages/Construction.tsx";
 import Materiaux from "./pages/Materiaux.tsx";
 import Contact from "./pages/Contact.tsx";
+import Login from "./pages/admin/Login.tsx";
+import Dashboard from "./pages/admin/Dashboard.tsx";
+import PropertiesManagement from "./pages/admin/PropertiesManagement.tsx";
+import TerrainsManagement from "./pages/admin/TerrainsManagement.tsx";
+import VehiclesManagement from "./pages/admin/VehiclesManagement.tsx";
+import MaterialsManagement from "./pages/admin/MaterialsManagement.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/proprietes" element={<Properties />} />
-          <Route path="/proprietes/:id" element={<PropertyDetail />} />
-          <Route path="/terrains" element={<Terrains />} />
-          <Route path="/terrains/:id" element={<TerrainDetail />} />
-          <Route path="/construction" element={<Construction />} />
-          <Route path="/materiaux" element={<Materiaux />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/proprietes" element={<Properties />} />
+            <Route path="/proprietes/:id" element={<PropertyDetail />} />
+            <Route path="/terrains" element={<Terrains />} />
+            <Route path="/terrains/:id" element={<TerrainDetail />} />
+            <Route path="/vehicules" element={<Vehicles />} />
+            <Route path="/vehicules/:id" element={<VehicleDetail />} />
+            <Route path="/construction" element={<Construction />} />
+            <Route path="/materiaux" element={<Materiaux />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Admin Routes */}
+            <Route path="/iskovial-admin/login" element={<Login />} />
+            <Route path="/iskovial-admin/dashboard" element={<Dashboard />} />
+            <Route path="/iskovial-admin/properties" element={<PropertiesManagement />} />
+            <Route path="/iskovial-admin/terrains" element={<TerrainsManagement />} />
+            <Route path="/iskovial-admin/vehicles" element={<VehiclesManagement />} />
+            <Route path="/iskovial-admin/materials" element={<MaterialsManagement />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

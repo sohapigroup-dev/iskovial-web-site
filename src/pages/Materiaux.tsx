@@ -1,17 +1,44 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { materials, formatPrice } from "@/data/properties";
+import { supabase } from "@/lib/supabase";
 
-const categories = ["Tous", "Ciment", "Briques", "Fer", "Sable", "Gravier", "Peinture"];
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("fr-FR").format(price);
+};
+
+const categories = ["Tous", "Ciment", "Briques", "Fer", "Sable", "Gravier", "Peinture", "Autre"];
 
 const MateriauxPage = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Tous");
+  const [materials, setMaterials] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMaterials();
+  }, []);
+
+  const fetchMaterials = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('materials')
+        .select('*')
+        .eq('in_stock', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setMaterials(data || []);
+    } catch (error) {
+      console.error('Error fetching materials:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filtered = useMemo(() =>
     materials.filter((m) => {
@@ -19,8 +46,22 @@ const MateriauxPage = () => {
       const matchSearch = m.name.toLowerCase().includes(search.toLowerCase());
       return matchCat && matchSearch;
     }),
-    [search, category]
+    [search, category, materials]
   );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-24 pb-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center py-20">Chargement...</div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

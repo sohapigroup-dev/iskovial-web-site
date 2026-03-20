@@ -3,13 +3,12 @@ import { MapPin, Maximize, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Terrain, formatPrice } from "@/data/properties";
 import property1 from "@/assets/property-1.jpg";
-import property2 from "@/assets/property-2.jpg";
-import property3 from "@/assets/property-3.jpg";
-
-const images = [property1, property2, property3];
 
 const TerrainCard = ({ terrain, index = 0 }: { terrain: Terrain; index?: number }) => {
-  const img = images[index % images.length];
+  // Utiliser la première image uploadée ou l'image par défaut
+  const img = terrain.images && terrain.images.length > 0
+    ? terrain.images[0]
+    : terrain.image || property1;
 
   return (
     <motion.div

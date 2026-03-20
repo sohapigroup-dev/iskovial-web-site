@@ -3,13 +3,12 @@ import { MapPin, Maximize, BedDouble, Bath, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Property, formatPrice } from "@/data/properties";
 import property1 from "@/assets/property-1.jpg";
-import property2 from "@/assets/property-2.jpg";
-import property3 from "@/assets/property-3.jpg";
-
-const images = [property1, property2, property3];
 
 const PropertyCard = ({ property, index = 0 }: { property: Property; index?: number }) => {
-  const img = images[index % images.length];
+  // Utiliser la première image uploadée ou l'image par défaut
+  const img = property.images && property.images.length > 0
+    ? property.images[0]
+    : property.image || property1;
 
   return (
     <motion.div

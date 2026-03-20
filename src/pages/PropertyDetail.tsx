@@ -1,12 +1,16 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Maximize, BedDouble, Bath, Home, Check, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { properties, formatPrice } from "@/data/properties";
+import { supabase } from "@/lib/supabase";
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("fr-FR").format(price);
+};
 import property1 from "@/assets/property-1.jpg";
 import property2 from "@/assets/property-2.jpg";
 import property3 from "@/assets/property-3.jpg";
@@ -17,7 +21,41 @@ const PropertyDetail = () => {
   const { id } = useParams();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const property = properties.find((p) => p.id === id);
+  const [property, setProperty] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProperty();
+  }, [id]);
+
+  const fetchProperty = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      setProperty(data);
+    } catch (error) {
+      console.error('Error fetching property:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-24 container mx-auto px-4 text-center py-20">
+          <div>Chargement...</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!property) {
     return (
@@ -35,7 +73,9 @@ const PropertyDetail = () => {
   // Utiliser les images de la propriété ou les images par défaut
   const images = property.images && property.images.length > 0
     ? property.images
-    : [defaultImages[parseInt(property.id) % defaultImages.length]];
+    : property.image
+    ? [property.image]
+    : [defaultImages[0]];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);

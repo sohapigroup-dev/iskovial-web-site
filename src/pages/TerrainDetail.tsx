@@ -1,23 +1,56 @@
 import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Maximize, Phone, Mail, Landmark, MessageCircle, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { terrains, formatPrice } from "@/data/properties";
+import { formatPrice } from "@/data/properties";
+import { supabase } from "@/lib/supabase";
 import property1 from "@/assets/property-1.jpg";
-import property2 from "@/assets/property-2.jpg";
-import property3 from "@/assets/property-3.jpg";
 
-const defaultImages = [property1, property2, property3];
+const defaultImages = [property1];
 
 const TerrainDetail = () => {
   const { id } = useParams();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const terrain = terrains.find((t) => t.id === id);
+  const [terrain, setTerrain] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTerrain();
+  }, [id]);
+
+  const fetchTerrain = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('terrains')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      setTerrain(data);
+    } catch (error) {
+      console.error('Error fetching terrain:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="pt-24 container mx-auto px-4 text-center py-20">
+          <div>Chargement...</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!terrain) {
     return (
@@ -32,10 +65,12 @@ const TerrainDetail = () => {
     );
   }
 
-  // Utiliser les images du terrain ou les images par défaut
+  // Utiliser les images du terrain ou l'image par défaut
   const images = terrain.images && terrain.images.length > 0
     ? terrain.images
-    : [defaultImages[terrains.indexOf(terrain) % defaultImages.length]];
+    : terrain.image
+    ? [terrain.image]
+    : defaultImages;
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
