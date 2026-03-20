@@ -8,9 +8,6 @@
 -- VALUES ('iskovial-images', 'iskovial-images', true)
 -- ON CONFLICT (id) DO NOTHING;
 
--- -- ============================================
--- -- POLICIES DE SÉCURITÉ POUR LE STORAGE
--- -- ============================================
 
 -- -- Permettre à tout le monde de lire les images (lecture publique)
 -- CREATE POLICY "Public Access"
