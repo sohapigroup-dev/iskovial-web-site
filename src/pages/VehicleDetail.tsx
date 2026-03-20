@@ -344,7 +344,7 @@ const VehicleDetail = () => {
 
               {/* Contact Buttons */}
               <div className="space-y-3">
-                <a href={`https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20véhicule%20:%20${encodeURIComponent(vehicle.title)}`} target="_blank" rel="noopener noreferrer" className="block">
+                <a href={`https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20ce%20véhicule%20:%0A${encodeURIComponent(vehicle.title)}%0A${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer" className="block">
                   <Button size="lg" className="w-full gap-2 bg-[#25D366] hover:bg-[#20BA5A]">
                     <MessageCircle className="w-5 h-5" />
                     Contacter via WhatsApp

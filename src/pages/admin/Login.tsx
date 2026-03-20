@@ -45,7 +45,7 @@ const Login = () => {
               Administration
             </h1>
             <p className="text-gray-600">
-              Connexion au backoffice ISKOVIAL
+              ISKOVIAL GROUP
             </p>
           </div>
 
@@ -105,7 +105,7 @@ const Login = () => {
           {/* Info */}
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-800">
-              <strong>Note :</strong> Seuls les administrateurs autorisés peuvent accéder au backoffice.
+              <strong>Note :</strong> Seuls les administrateurs autorisés peuvent accéder au Tableau de board.
             </p>
           </div>
         </div>

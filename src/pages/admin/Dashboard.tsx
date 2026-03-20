@@ -106,30 +106,30 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img src={logo} alt="ISKOVIAL" className="h-12 rounded-xl" />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  Backoffice ISKOVIAL
+        <div className="container mx-auto px-3 md:px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 md:gap-4 min-w-0">
+              <img src={logo} alt="ISKOVIAL" className="h-8 md:h-12 rounded-lg flex-shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-sm md:text-2xl font-bold text-gray-900 truncate">
+                  ISKOVIAL GROUP
                 </h1>
-                <p className="text-sm text-gray-600">
+                <p className="text-xs md:text-sm text-gray-600 hidden sm:block">
                   Administration de la plateforme
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 md:gap-4 flex-shrink-0">
               <Link to="/" target="_blank">
-                <Button variant="outline" size="sm">
-                  <Eye className="w-4 h-4 mr-2" />
-                  Voir le site
+                <Button variant="outline" size="sm" className="h-8 md:h-9">
+                  <Eye className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+                  <span className="hidden md:inline">Voir le site</span>
                 </Button>
               </Link>
-              <Button variant="outline" size="sm" onClick={handleSignOut}>
-                <LogOut className="w-4 h-4 mr-2" />
-                Déconnexion
+              <Button variant="outline" size="sm" onClick={handleSignOut} className="h-8 md:h-9">
+                <LogOut className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+                <span className="hidden md:inline">Déconnexion</span>
               </Button>
             </div>
           </div>
@@ -137,23 +137,23 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 md:px-4 py-4 md:py-8">
         {/* Welcome */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-4 md:mb-8"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-1 md:mb-2">
             Tableau de bord
           </h2>
-          <p className="text-gray-600">
+          <p className="text-sm md:text-base text-gray-600 truncate">
             Bienvenue, {user?.email}
           </p>
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-8">
           {menuItems.map((item, index) => (
             <motion.div
               key={item.title}
@@ -163,19 +163,19 @@ const Dashboard = () => {
             >
               <Link to={item.link}>
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
-                  <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">
+                  <CardHeader className="flex flex-row items-center justify-between pb-2 p-3 md:p-6">
+                    <CardTitle className="text-xs md:text-sm font-medium text-gray-600">
                       {item.title}
                     </CardTitle>
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${item.color}`}>
-                      <item.icon className="w-5 h-5 text-white" />
+                    <div className={`p-1.5 md:p-2 rounded-lg bg-gradient-to-br ${item.color}`}>
+                      <item.icon className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold text-gray-900">
+                  <CardContent className="p-3 md:p-6 pt-0">
+                    <div className="text-2xl md:text-3xl font-bold text-gray-900">
                       {loading ? '...' : item.count}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1 group-hover:text-primary transition-colors">
+                    <p className="text-xs md:text-sm text-gray-600 mt-1 group-hover:text-primary transition-colors">
                       Gérer →
                     </p>
                   </CardContent>
@@ -192,18 +192,18 @@ const Dashboard = () => {
           transition={{ delay: 0.4 }}
         >
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LayoutDashboard className="w-5 h-5" />
+            <CardHeader className="p-3 md:p-6">
+              <CardTitle className="flex items-center gap-2 text-sm md:text-base">
+                <LayoutDashboard className="w-4 h-4 md:w-5 md:h-5" />
                 Actions rapides
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CardContent className="p-3 md:p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
                 {menuItems.map((item) => (
                   <Link key={item.title} to={item.link}>
-                    <Button variant="outline" className="w-full justify-start">
-                      <item.icon className="w-4 h-4 mr-2" />
+                    <Button variant="outline" className="w-full justify-start text-xs md:text-sm h-8 md:h-10">
+                      <item.icon className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                       Gérer {item.title}
                     </Button>
                   </Link>
@@ -218,19 +218,19 @@ const Dashboard = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-8"
+          className="mt-4 md:mt-8"
         >
           <Card className="bg-blue-50 border-blue-200">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <TrendingUp className="w-6 h-6 text-blue-600" />
+            <CardContent className="p-4 md:p-6">
+              <div className="flex items-start gap-2 md:gap-4">
+                <div className="p-2 md:p-3 bg-blue-100 rounded-lg flex-shrink-0">
+                  <TrendingUp className="w-4 h-4 md:w-6 md:h-6 text-blue-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-blue-900 mb-1">
+                  <h3 className="font-semibold text-blue-900 mb-1 text-sm md:text-base">
                     Plateforme opérationnelle
                   </h3>
-                  <p className="text-sm text-blue-800">
+                  <p className="text-xs md:text-sm text-blue-800">
                     Le backoffice ISKOVIAL est prêt. Vous pouvez maintenant gérer vos propriétés, terrains, véhicules et matériaux depuis cette interface.
                   </p>
                 </div>

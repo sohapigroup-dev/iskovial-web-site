@@ -247,7 +247,7 @@ const TerrainDetail = () => {
 
                 <div className="space-y-3">
                   <Button size="lg" className="w-full gap-2 bg-[#25D366] hover:bg-[#20BA5A]" asChild>
-                    <a href="https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20le%20terrain%20:%20" target="_blank" rel="noopener noreferrer">
+                    <a href={`https://wa.me/2250799992517?text=Bonjour,%20je%20suis%20intéressé(e)%20par%20ce%20terrain%20:%0A${encodeURIComponent(terrain.title)}%0A${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">
                       <MessageCircle className="w-4 h-4" /> Contacter via WhatsApp
                     </a>
                   </Button>
