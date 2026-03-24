@@ -208,52 +208,52 @@ const TerrainsManagement = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <div className="container mx-auto px-3 md:px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 md:gap-4 min-w-0">
               <Link to="/iskovial-admin/dashboard">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Retour
+                <Button variant="ghost" size="sm" className="h-8 md:h-9 px-2 md:px-3">
+                  <ArrowLeft className="w-4 h-4 md:mr-2" />
+                  <span className="hidden md:inline">Retour</span>
                 </Button>
               </Link>
-              <img src={logo} alt="ISKOVIAL" className="h-10 rounded-xl" />
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">
+              <img src={logo} alt="ISKOVIAL" className="h-8 md:h-10 rounded-xl flex-shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-sm md:text-xl font-bold text-gray-900 truncate">
                   Gestion des Terrains
                 </h1>
               </div>
             </div>
 
-            <Button onClick={() => handleOpenDialog()}>
-              <Plus className="w-4 h-4 mr-2" />
-              Nouveau Terrain
+            <Button onClick={() => handleOpenDialog()} size="sm" className="h-8 md:h-9 flex-shrink-0">
+              <Plus className="w-4 h-4 md:mr-2" />
+              <span className="hidden md:inline">Nouveau Terrain</span>
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 md:px-4 py-4 md:py-8">
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
+          <CardHeader className="p-3 md:p-6">
+            <CardTitle className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <MapPin className="w-4 h-4 md:w-5 md:h-5" />
                 Terrains ({filteredTerrains.length})
               </div>
-              <div className="relative w-64">
+              <div className="relative w-full md:w-64">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
                   placeholder="Rechercher..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-9 text-sm"
                 />
               </div>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 md:p-6">
             {loading ? (
               <div className="text-center py-8">Chargement...</div>
             ) : filteredTerrains.length === 0 ? (
@@ -261,72 +261,132 @@ const TerrainsManagement = () => {
                 Aucun terrain trouvé
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Titre</TableHead>
-                      <TableHead>Zonage</TableHead>
-                      <TableHead>Prix</TableHead>
-                      <TableHead>Localisation</TableHead>
-                      <TableHead>Surface</TableHead>
-                      <TableHead>Statut</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredTerrains.map((terrain) => (
-                      <TableRow key={terrain.id}>
-                        <TableCell className="font-medium">
-                          {terrain.title}
+              <>
+                {/* Mobile: Card view */}
+                <div className="md:hidden space-y-3">
+                  {filteredTerrains.map((terrain) => (
+                    <div key={terrain.id} className="border rounded-lg p-3 space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-sm truncate">{terrain.title}</h3>
                           {terrain.featured && (
-                            <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                            <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">
                               Featured
                             </span>
                           )}
-                        </TableCell>
-                        <TableCell>{terrain.zoning}</TableCell>
-                        <TableCell>{terrain.price.toLocaleString()} FCFA</TableCell>
-                        <TableCell>{terrain.location}</TableCell>
-                        <TableCell>{terrain.surface} m²</TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded text-xs ${
-                            terrain.status === 'available'
-                              ? 'bg-green-100 text-green-800'
-                              : terrain.status === 'sold'
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-orange-100 text-orange-800'
-                          }`}>
-                            {terrain.status === 'available' ? 'Disponible' :
-                             terrain.status === 'sold' ? 'Vendu' : 'Réservé'}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleOpenDialog(terrain)}
-                            >
-                              <Pencil className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                setSelectedTerrain(terrain);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </div>
-                        </TableCell>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded text-xs flex-shrink-0 ${
+                          terrain.status === 'available'
+                            ? 'bg-green-100 text-green-800'
+                            : terrain.status === 'sold'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-orange-100 text-orange-800'
+                        }`}>
+                          {terrain.status === 'available' ? 'Disponible' :
+                           terrain.status === 'sold' ? 'Vendu' : 'Réservé'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                        <div><span className="font-medium">Zonage:</span> {terrain.zoning}</div>
+                        <div><span className="font-medium">Surface:</span> {terrain.surface} m²</div>
+                        <div className="col-span-2"><span className="font-medium">Lieu:</span> {terrain.location}</div>
+                      </div>
+                      <div className="flex items-center justify-between pt-2 border-t">
+                        <span className="font-bold text-primary text-sm">{terrain.price.toLocaleString()} FCFA</span>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => handleOpenDialog(terrain)}
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => {
+                              setSelectedTerrain(terrain);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                          >
+                            <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop: Table view */}
+                <div className="hidden md:block overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Titre</TableHead>
+                        <TableHead>Zonage</TableHead>
+                        <TableHead>Prix</TableHead>
+                        <TableHead>Localisation</TableHead>
+                        <TableHead>Surface</TableHead>
+                        <TableHead>Statut</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredTerrains.map((terrain) => (
+                        <TableRow key={terrain.id}>
+                          <TableCell className="font-medium">
+                            {terrain.title}
+                            {terrain.featured && (
+                              <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                                Featured
+                              </span>
+                            )}
+                          </TableCell>
+                          <TableCell>{terrain.zoning}</TableCell>
+                          <TableCell>{terrain.price.toLocaleString()} FCFA</TableCell>
+                          <TableCell>{terrain.location}</TableCell>
+                          <TableCell>{terrain.surface} m²</TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded text-xs ${
+                              terrain.status === 'available'
+                                ? 'bg-green-100 text-green-800'
+                                : terrain.status === 'sold'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-orange-100 text-orange-800'
+                            }`}>
+                              {terrain.status === 'available' ? 'Disponible' :
+                               terrain.status === 'sold' ? 'Vendu' : 'Réservé'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleOpenDialog(terrain)}
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedTerrain(terrain);
+                                  setIsDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>

@@ -87,44 +87,61 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
       transition={{ duration: 0.5 }}
     >
       <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col">
-        <div className="relative overflow-hidden h-56">
+        <div className="relative overflow-hidden h-32 md:h-56">
           <img
             src={vehicle.images[0]}
             alt={vehicle.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
-            <Badge className={getCategoryColor(vehicle.category)}>
+          <div className="absolute top-2 md:top-4 left-2 md:left-4 flex flex-col gap-1 md:gap-2">
+            <Badge className={`${getCategoryColor(vehicle.category)} text-[10px] md:text-xs px-1.5 md:px-2 py-0.5`}>
               {vehicle.category}
             </Badge>
             {vehicle.featured && (
-              <Badge className="bg-gold/90 text-white border-gold">
+              <Badge className="bg-gold/90 text-white border-gold text-[10px] md:text-xs px-1.5 md:px-2 py-0.5">
                 En vedette
               </Badge>
             )}
           </div>
-          <div className="absolute top-4 right-4">
-            {getStatusBadge(vehicle.status)}
+          <div className="absolute top-2 md:top-4 right-2 md:right-4">
+            <Badge className={`text-[10px] md:text-xs px-1.5 md:px-2 py-0.5 ${
+              vehicle.status === "available" ? "bg-green-500/10 text-green-600 border-green-200" :
+              vehicle.status === "sold" ? "bg-red-500/10 text-red-600 border-red-200" :
+              vehicle.status === "rented" ? "bg-yellow-500/10 text-yellow-600 border-yellow-200" :
+              "bg-blue-500/10 text-blue-600 border-blue-200"
+            }`}>
+              <span className="hidden md:inline">{
+                vehicle.status === "available" ? "Disponible" :
+                vehicle.status === "sold" ? "Vendu" :
+                vehicle.status === "rented" ? "Loué" : "Réservé"
+              }</span>
+              <span className="md:hidden">{
+                vehicle.status === "available" ? "Dispo" :
+                vehicle.status === "sold" ? "Vendu" :
+                vehicle.status === "rented" ? "Loué" : "Rés."
+              }</span>
+            </Badge>
           </div>
         </div>
 
-        <CardContent className="p-6 flex-1 flex flex-col">
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-primary transition-colors">
+        <CardContent className="p-3 md:p-6 flex-1 flex flex-col">
+          <div className="flex items-start justify-between mb-1 md:mb-3">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm md:text-xl font-bold text-gray-900 mb-0.5 md:mb-1 group-hover:text-primary transition-colors truncate">
                 {vehicle.title}
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs md:text-sm text-gray-600 truncate">
                 {vehicle.brand} {vehicle.model}
               </p>
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2 md:mb-4 hidden md:block">
             {getTransactionBadge(vehicle.transaction_type)}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+          {/* Desktop specs */}
+          <div className="hidden md:grid grid-cols-2 gap-3 mb-4 text-sm">
             <div className="flex items-center gap-2 text-gray-600">
               <Calendar className="w-4 h-4 text-primary" />
               <span>{vehicle.year}</span>
@@ -151,21 +168,40 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
             </div>
           </div>
 
+          {/* Mobile specs - compact */}
+          <div className="md:hidden flex flex-wrap gap-1.5 mb-2 text-[10px] text-gray-600">
+            <span className="flex items-center gap-0.5">
+              <Calendar className="w-3 h-3 text-primary" />
+              {vehicle.year}
+            </span>
+            <span className="flex items-center gap-0.5">
+              <Fuel className="w-3 h-3 text-primary" />
+              {vehicle.fuel_type}
+            </span>
+            <span className="flex items-center gap-0.5">
+              <Settings className="w-3 h-3 text-primary" />
+              {vehicle.transmission === "Automatique" ? "Auto" : "Man."}
+            </span>
+          </div>
+
           <div className="mt-auto">
-            <div className="mb-4">
-              <div className="flex flex-col gap-1">
+            <div className="mb-2 md:mb-4">
+              <div className="flex flex-col gap-0.5 md:gap-1">
                 {vehicle.transaction_type !== "rent" && (
                   <div>
-                    <span className="text-sm text-gray-600">Prix de vente:</span>
-                    <p className="text-2xl font-bold text-primary">
+                    <span className="text-[10px] md:text-sm text-gray-600 hidden md:inline">Prix de vente:</span>
+                    <p className="text-sm md:text-2xl font-bold text-primary">
                       {formatPrice(vehicle.price)}
                     </p>
                   </div>
                 )}
                 {vehicle.transaction_type !== "sale" && vehicle.rental_price_per_day && (
-                  <div className="mt-2">
-                    <span className="text-sm text-gray-600">Location/jour:</span>
-                    <p className="text-lg font-semibold text-gold">
+                  <div className="md:mt-2">
+                    <span className="text-[10px] md:text-sm text-gray-600">
+                      <span className="hidden md:inline">Location/jour:</span>
+                      <span className="md:hidden">/jour:</span>
+                    </span>
+                    <p className="text-xs md:text-lg font-semibold text-gold">
                       {formatPrice(vehicle.rental_price_per_day)}
                     </p>
                   </div>
@@ -174,9 +210,10 @@ const VehicleCard = ({ vehicle }: VehicleCardProps) => {
             </div>
 
             <Link to={`/vehicules/${vehicle.id}`}>
-              <Button className="w-full group/btn">
-                Voir les détails
-                <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <Button className="w-full group/btn text-xs md:text-sm h-8 md:h-10">
+                <span className="hidden md:inline">Voir les détails</span>
+                <span className="md:hidden">Détails</span>
+                <ArrowRight className="ml-1 md:ml-2 w-3 h-3 md:w-4 md:h-4 group-hover/btn:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>

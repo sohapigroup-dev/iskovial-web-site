@@ -111,7 +111,7 @@ const Vehicles = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative bg-gradient-to-r from-primary to-primary/80 text-white py-20 pt-32"
+        className="relative bg-gradient-to-r from-primary to-primary/80 text-white py-12 md:py-20 pt-24 md:pt-32"
       >
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200')] opacity-20 bg-cover bg-center" />
         <div className="container mx-auto px-4 relative z-10">
@@ -121,11 +121,11 @@ const Vehicles = () => {
             transition={{ delay: 0.2 }}
             className="max-w-3xl"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <Car className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">Nos Véhicules</h1>
+            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+              <Car className="w-8 h-8 md:w-12 md:h-12" />
+              <h1 className="text-3xl md:text-5xl font-bold">Nos Véhicules</h1>
             </div>
-            <p className="text-xl text-white/90">
+            <p className="text-base md:text-xl text-white/90">
               Découvrez notre sélection de véhicules personnels, camions et cars.
               Vente et location disponibles.
             </p>
@@ -135,28 +135,28 @@ const Vehicles = () => {
 
       {/* Filters Section */}
       <div className="bg-white shadow-md sticky top-16 z-40 border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-4">
-            <SlidersHorizontal className="w-5 h-5 text-primary" />
-            <h2 className="text-lg font-semibold">Filtres</h2>
+        <div className="container mx-auto px-3 md:px-4 py-4 md:py-6">
+          <div className="flex items-center gap-2 mb-3 md:mb-4">
+            <SlidersHorizontal className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+            <h2 className="text-base md:text-lg font-semibold">Filtres</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-2 md:gap-4">
             {/* Search */}
-            <div className="relative lg:col-span-2">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <div className="relative col-span-2 lg:col-span-2">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 md:w-5 md:h-5" />
               <Input
                 type="text"
-                placeholder="Rechercher un véhicule..."
+                placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-9 md:pl-10 text-sm md:text-base"
               />
             </div>
 
             {/* Category Filter */}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
+              <SelectTrigger className="text-sm md:text-base">
                 <SelectValue placeholder="Catégorie" />
               </SelectTrigger>
               <SelectContent>
@@ -169,7 +169,7 @@ const Vehicles = () => {
 
             {/* Transaction Type Filter */}
             <Select value={selectedTransaction} onValueChange={setSelectedTransaction}>
-              <SelectTrigger>
+              <SelectTrigger className="text-sm md:text-base">
                 <SelectValue placeholder="Transaction" />
               </SelectTrigger>
               <SelectContent>
@@ -181,7 +181,7 @@ const Vehicles = () => {
 
             {/* Fuel Type Filter */}
             <Select value={selectedFuelType} onValueChange={setSelectedFuelType}>
-              <SelectTrigger>
+              <SelectTrigger className="text-sm md:text-base">
                 <SelectValue placeholder="Carburant" />
               </SelectTrigger>
               <SelectContent>
@@ -192,15 +192,10 @@ const Vehicles = () => {
                 <SelectItem value="Hybride">Hybride</SelectItem>
               </SelectContent>
             </Select>
-          </div>
 
-          {/* Sort */}
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-sm text-gray-600">
-              {filteredVehicles.length} véhicule{filteredVehicles.length > 1 ? "s" : ""} trouvé{filteredVehicles.length > 1 ? "s" : ""}
-            </p>
+            {/* Sort - mobile inline */}
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="text-sm md:text-base">
                 <SelectValue placeholder="Trier par" />
               </SelectTrigger>
               <SelectContent>
@@ -212,13 +207,20 @@ const Vehicles = () => {
               </SelectContent>
             </Select>
           </div>
+
+          {/* Results count */}
+          <div className="mt-3 md:mt-4">
+            <p className="text-xs md:text-sm text-gray-600">
+              {filteredVehicles.length} véhicule{filteredVehicles.length > 1 ? "s" : ""} trouvé{filteredVehicles.length > 1 ? "s" : ""}
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Vehicles Grid */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-3 md:px-4 py-6 md:py-12">
         {filteredVehicles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {filteredVehicles.map((vehicle: Vehicle) => (
               <VehicleCard key={vehicle.id} vehicle={vehicle} />
             ))}
@@ -227,13 +229,13 @@ const Vehicles = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-20"
+            className="text-center py-12 md:py-20"
           >
-            <Car className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-600 mb-2">
+            <Car className="w-12 h-12 md:w-16 md:h-16 text-gray-300 mx-auto mb-3 md:mb-4" />
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-600 mb-2">
               Aucun véhicule trouvé
             </h3>
-            <p className="text-gray-500">
+            <p className="text-sm md:text-base text-gray-500">
               Essayez de modifier vos critères de recherche
             </p>
           </motion.div>

@@ -198,52 +198,52 @@ const MaterialsManagement = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <div className="container mx-auto px-3 md:px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 md:gap-4 min-w-0">
               <Link to="/iskovial-admin/dashboard">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Retour
+                <Button variant="ghost" size="sm" className="h-8 md:h-9 px-2 md:px-3">
+                  <ArrowLeft className="w-4 h-4 md:mr-2" />
+                  <span className="hidden md:inline">Retour</span>
                 </Button>
               </Link>
-              <img src={logo} alt="ISKOVIAL" className="h-10 rounded-xl" />
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">
+              <img src={logo} alt="ISKOVIAL" className="h-8 md:h-10 rounded-xl flex-shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-sm md:text-xl font-bold text-gray-900 truncate">
                   Gestion des Matériaux
                 </h1>
               </div>
             </div>
 
-            <Button onClick={() => handleOpenDialog()}>
-              <Plus className="w-4 h-4 mr-2" />
-              Nouveau Matériau
+            <Button onClick={() => handleOpenDialog()} size="sm" className="h-8 md:h-9 flex-shrink-0">
+              <Plus className="w-4 h-4 md:mr-2" />
+              <span className="hidden md:inline">Nouveau Matériau</span>
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 md:px-4 py-4 md:py-8">
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Package className="w-5 h-5" />
+          <CardHeader className="p-3 md:p-6">
+            <CardTitle className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-sm md:text-base">
+                <Package className="w-4 h-4 md:w-5 md:h-5" />
                 Matériaux ({filteredMaterials.length})
               </div>
-              <div className="relative w-64">
+              <div className="relative w-full md:w-64">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <Input
                   placeholder="Rechercher..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-9 text-sm"
                 />
               </div>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 md:p-6">
             {loading ? (
               <div className="text-center py-8">Chargement...</div>
             ) : filteredMaterials.length === 0 ? (
@@ -251,64 +251,116 @@ const MaterialsManagement = () => {
                 Aucun matériau trouvé
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nom</TableHead>
-                      <TableHead>Catégorie</TableHead>
-                      <TableHead>Prix</TableHead>
-                      <TableHead>Unité</TableHead>
-                      <TableHead>Stock</TableHead>
-                      <TableHead>Disponibilité</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredMaterials.map((material) => (
-                      <TableRow key={material.id}>
-                        <TableCell className="font-medium">
-                          {material.name}
-                        </TableCell>
-                        <TableCell>{material.category}</TableCell>
-                        <TableCell>{material.price.toLocaleString()} FCFA</TableCell>
-                        <TableCell>{material.unit}</TableCell>
-                        <TableCell>{material.stock_quantity}</TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded text-xs ${
-                            material.in_stock
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
-                          }`}>
-                            {material.in_stock ? 'En stock' : 'Rupture'}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleOpenDialog(material)}
-                            >
-                              <Pencil className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => {
-                                setSelectedMaterial(material);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </div>
-                        </TableCell>
+              <>
+                {/* Mobile: Card view */}
+                <div className="md:hidden space-y-3">
+                  {filteredMaterials.map((material) => (
+                    <div key={material.id} className="border rounded-lg p-3 space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-sm truncate">{material.name}</h3>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded text-xs flex-shrink-0 ${
+                          material.in_stock
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {material.in_stock ? 'En stock' : 'Rupture'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                        <div><span className="font-medium">Catégorie:</span> {material.category}</div>
+                        <div><span className="font-medium">Unité:</span> {material.unit}</div>
+                        <div><span className="font-medium">Stock:</span> {material.stock_quantity}</div>
+                      </div>
+                      <div className="flex items-center justify-between pt-2 border-t">
+                        <span className="font-bold text-primary text-sm">{material.price.toLocaleString()} FCFA</span>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => handleOpenDialog(material)}
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                            onClick={() => {
+                              setSelectedMaterial(material);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                          >
+                            <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop: Table view */}
+                <div className="hidden md:block overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nom</TableHead>
+                        <TableHead>Catégorie</TableHead>
+                        <TableHead>Prix</TableHead>
+                        <TableHead>Unité</TableHead>
+                        <TableHead>Stock</TableHead>
+                        <TableHead>Disponibilité</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredMaterials.map((material) => (
+                        <TableRow key={material.id}>
+                          <TableCell className="font-medium">
+                            {material.name}
+                          </TableCell>
+                          <TableCell>{material.category}</TableCell>
+                          <TableCell>{material.price.toLocaleString()} FCFA</TableCell>
+                          <TableCell>{material.unit}</TableCell>
+                          <TableCell>{material.stock_quantity}</TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded text-xs ${
+                              material.in_stock
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-red-100 text-red-800'
+                            }`}>
+                              {material.in_stock ? 'En stock' : 'Rupture'}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleOpenDialog(material)}
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedMaterial(material);
+                                  setIsDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
